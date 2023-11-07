@@ -44,7 +44,7 @@ class CashCardApplicationTests {
 
 	@Test
 	void shouldCreateANewCashCard() {
-		CashCard newCashCard = new CashCard(44L, 250.00);
+		CashCard newCashCard = new CashCard(null, 250.00);
 		
 		ResponseEntity<Void> createResponse = restTemplate.postForEntity("/cashcards", newCashCard, Void.class);
 
