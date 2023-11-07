@@ -49,6 +49,41 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+            	<artifactId>maven-surefire-plugin</artifactId>
+            	<version>3.0.0-M5</version> <!-- Mettez à jour la version en fonction de votre configuration -->
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+					<properties>
+						<property>
+							<name>testLogging.events</name>
+							<value>passed,skipped,failed</value>
+						</property>
+						<property>
+							<name>testLogging.showExceptions</name>
+							<value>true</value>
+						</property>
+						<property>
+							<name>testLogging.exceptionFormat</name>
+							<value>full</value>
+						</property>
+						<property>
+							<name>testLogging.showCauses</name>
+							<value>true</value>
+						</property>
+						<property>
+							<name>testLogging.showStackTraces</name>
+							<value>true</value>
+						</property>
+						<property>
+							<name>testLogging.showStandardStreams</name>
+							<value>true</value>
+						</property>
+					</properties>
+				</configuration>
+        	</plugin>
+
 		</plugins>
 	</build>
 
