@@ -25,7 +25,7 @@ public class CashCardJsonTest {
     void setUp() {
         cashCards = Arrays.array(
             new CashCard(99L, 123.45),
-            new CashCard(100L, 1.0),
+            new CashCard(100L, 1.00),
             new CashCard(101L, 150.00)
         );
     }
@@ -33,7 +33,7 @@ public class CashCardJsonTest {
     @Test
     public void cashCardSerializationTest() throws IOException {
         CashCard cashCard = cashCards[0];
-        assertThat(json.write(cashCard)).isStrictlyEqualToJson("expected.json");
+        assertThat(json.write(cashCard)).isStrictlyEqualToJson("single.json");
         assertThat(json.write(cashCard)).hasJsonPathNumberValue("@.id");
         assertThat(json.write(cashCard)).extractingJsonPathNumberValue("@.id").isEqualTo(99);
         assertThat(json.write(cashCard)).hasJsonPathNumberValue("@.amount");
