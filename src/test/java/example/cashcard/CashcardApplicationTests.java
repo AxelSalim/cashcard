@@ -88,7 +88,7 @@ class CashCardApplicationTests {
 
 		DocumentContext documentContext = JsonPath.parse(response.getBody());
 		int cashCardCount = documentContext.read("$.length()");
-		assertThat(cashCardCount).isEqualTo(3);
+		assertThat(cashCardCount).isEqualTo(4);
 
 		JSONArray ids = documentContext.read("$..id");
 		assertThat(ids).containsExactlyInAnyOrder(99, 100, 101);
@@ -138,7 +138,7 @@ class CashCardApplicationTests {
 
 		DocumentContext documentContext = JsonPath.parse(response.getBody());
 		JSONArray page = documentContext.read("$[*]");
-		assertThat(page.size()).isEqualTo(3);
+		assertThat(page.size()).isEqualTo(4);
 
 		JSONArray amounts = documentContext.read("$..amount");
 		assertThat(amounts).containsExactly(1.00, 123.45, 150.00);
@@ -163,6 +163,14 @@ class CashCardApplicationTests {
 				.withBasicAuth("hank-owns-no-cards", "qrs456")
 				.getForEntity("/cashcards/99", String.class);
     	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+	}
+
+	@Test
+	void shouldNotAllowAccessToCashCardsTheyDoNotOwn() {
+		ResponseEntity<String> response = restTemplate
+				.withBasicAuth("sarah1", "abc123")
+				.getForEntity("/cashcards/102", String.class); // kumar2's data
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 	}
 
 }
