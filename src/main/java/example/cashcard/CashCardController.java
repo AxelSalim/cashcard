@@ -1,6 +1,7 @@
 package example.cashcard;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +24,9 @@ public class CashCardController {
     }
 
     @GetMapping("/{requestedId}")
-    public ResponseEntity<CashCard> findById(@PathVariable Long requestedId) {
+    public ResponseEntity<CashCard> findById(@PathVariable Long requestedId, Principal principal) {
 
-        Optional<CashCard> cashCardOptional = cashCardRepository.findById(requestedId);
+        Optional<CashCard> cashCardOptional = Optional.ofNullable(cashCardRepository.findByIdAndOwner(requestedId, principal.getName()));
         
         if (cashCardOptional.isPresent()) {
 
@@ -48,8 +49,8 @@ public class CashCardController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CashCard>> findAll(Pageable pageable) {
-        Page<CashCard> page = cashCardRepository.findAll(
+    public ResponseEntity<List<CashCard>> findAll(Pageable pageable, Principal principal) {
+        Page<CashCard> page = cashCardRepository.findByOwner(principal.getName(),
             PageRequest.of(
                 pageable.getPageNumber(), 
                 pageable.getPageSize(),
